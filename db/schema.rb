@@ -10,29 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_09_151926) do
+ActiveRecord::Schema.define(version: 2018_05_10_110903) do
 
   create_table "categories", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_categories_on_title", unique: true
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "quantity", default: 0, null: false
+    t.integer "order_id", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity", null: false
     t.decimal "price", precision: 15, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "order_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
     t.string "first_name"
-    t.string "last_name", null: false
+    t.string "last_name"
     t.decimal "sub_total", precision: 15, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -45,20 +49,21 @@ ActiveRecord::Schema.define(version: 2018_05_09_151926) do
   end
 
   create_table "product_variants", force: :cascade do |t|
-    t.string "title", null: false
+    t.integer "product_id", null: false
+    t.string "title", limit: 100, null: false
     t.decimal "price", precision: 15, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "product_id"
     t.index ["product_id"], name: "index_product_variants_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "title", limit: 150, null: false
     t.text "description"
-    t.decimal "price", precision: 15, scale: 2, null: false
+    t.decimal "price", precision: 15, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_products_on_title", unique: true
   end
 
 end
