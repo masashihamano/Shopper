@@ -50,6 +50,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'faker', '~> 1.8.5'
+  # seedを生成する
 end
 
 group :test do
